@@ -1,7 +1,6 @@
 import json
 import jieba
 import time
-from sklearn import feature_extraction
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import operator
