@@ -1,0 +1,2 @@
+FLASK_APP=tf_idf
+FLASK_ENV=development

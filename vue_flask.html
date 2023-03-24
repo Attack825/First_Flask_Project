@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>hello world</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style scoped>
+        fieldset {
+            /* 表单页面居中，宽度50% ,legend颜色设置，legend圆角*/
+            border: 2px solid #DCDFE6;
+            text-align: left;
+            border-radius: 8px;
+            margin: 0 auto;
+            width: 40%;
+        }
+    </style>
+</head>
+
+
+<body>
+    <p style="font-size: 20px; text-align:center">tfidf案例推荐系统</p>
+    <fieldset>
+        <div id="app">
+            <div class="case">
+                <p>请输入case：</p>
+                <textarea v-model="message" rows="5" cols="80" placeholder="多行文本输入……"></textarea>
+            </div>
+            <div class="sumbit">
+                <button @click="Onclick">提交按钮
+                </button>
+            </div>
+
+
+            <div class="similar_cases">
+                <!-- <p>similar_cases:</p> -->
+                <!-- <textarea rows="30" cols="80" style="overflow:scroll;overflow-x:hidden"> -->
+                <ul @click="Onclick">
+                    <li v-for="value in similar_cases">
+                        {{ value }}
+                    </li>
+                </ul>
+                </textarea>
+            </div>
+
+        </div>
+
+        <script>
+            const app = {
+
+                // mounted() {
+                //     this.Onclick();
+
+                // },
+                methods: {
+                    Onclick() {
+                        let param = new FormData(); //创建form对象
+                        param.append('case', this.message);//通过append向form对象添加数据
+                        axios.post('http://127.0.0.1:5000', param, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },)//请求头要为表单
+                            .then(function (response) {
+                                console.log(response);
+                                this.similar_cases=response.data.data
+                                alert ("top1: "+this.similar_cases[0])
+                                alert ("top2: "+this.similar_cases[1])
+                                alert ("top3: "+this.similar_cases[2])
+                                alert ("top4: "+this.similar_cases[3]) 
+                                alert ("top5: "+this.similar_cases[4])
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+
+                    }
+                },
+                data() {
+                    return {
+                        similar_cases: []
+                    }
+                }
+
+
+            }
+            Vue.createApp(app).mount('#app')
+        </script>
+    </fieldset>
+</body>
+
+</html>
